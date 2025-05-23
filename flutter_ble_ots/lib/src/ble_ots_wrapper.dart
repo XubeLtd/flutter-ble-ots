@@ -14,8 +14,10 @@ class BleOtsWrapper {
   late OtsFeatures _features;
   final String Function(Uint8List uuid)? _getNameFromUuid;
 
-  BleOtsWrapper(this._deviceId, this._ble, this._logMessage, this._metaDataUuids, this._getNameFromUuid) {
-    _otp = ObjectTransferProtocol(_ble, _deviceId, _logMessage, _metaDataUuids, _getNameFromUuid);
+  BleOtsWrapper(this._deviceId, this._ble, this._logMessage,
+      this._metaDataUuids, this._getNameFromUuid) {
+    _otp = ObjectTransferProtocol(
+        _ble, _deviceId, _logMessage, _metaDataUuids, _getNameFromUuid);
   }
 
   Future<void> init({CommonConnectionPriority? priority}) async {
@@ -31,7 +33,9 @@ class BleOtsWrapper {
     _otp.observeServiceId(serviceUuid);
   }
 
-  Future<List<int>> waitForCustomUuidChanged(Uint8List serviceUuid, DateTime afterTime) async => _otp.waitForCustomUuidChanged(
+  Future<List<int>> waitForCustomUuidChanged(
+          Uint8List serviceUuid, DateTime afterTime) async =>
+      _otp.waitForCustomUuidChanged(
         serviceUuid,
         afterTime,
       );
@@ -40,13 +44,21 @@ class BleOtsWrapper {
     return _otp.readDataFromId(_features.oacpFeatures, id);
   }
 
+  Future<bool> selectObjectId(List<int> id) => _otp.selectObjectId(id);
+
   Future<bool> writeDataToId(List<int> id, List<int> value) {
     return _otp.writeDataToId(_features.oacpFeatures, id, value);
   }
 
-  Future<bool> executeId(List<int> id) => _otp.executeId(id, _features.oacpFeatures);
+  Future<bool> createObject(List<int> id, List<int> value) {
+    return _otp.createObject(_features.oacpFeatures, id, value);
+  }
 
-  Future<List<ObjectMetaData>> getListOfSupportedUuids() => _otp.getListOfSupportedUuids();
+  Future<bool> executeId(List<int> id) =>
+      _otp.executeId(id, _features.oacpFeatures);
+
+  Future<List<ObjectMetaData>> getListOfSupportedUuids() =>
+      _otp.getListOfSupportedUuids();
 
   Future<void> cancelSubscriptions() => _otp.cancelSubscriptions();
 }

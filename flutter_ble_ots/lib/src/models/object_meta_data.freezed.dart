@@ -12,7 +12,7 @@ part of 'object_meta_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ObjectMetaData {
@@ -23,7 +23,9 @@ mixin _$ObjectMetaData {
   String get lastModified => throw _privateConstructorUsedError;
   ObjectProperties get objectProperties => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ObjectMetaDataCopyWith<ObjectMetaData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +57,8 @@ class _$ObjectMetaDataCopyWithImpl<$Res, $Val extends ObjectMetaData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class _$ObjectMetaDataCopyWithImpl<$Res, $Val extends ObjectMetaData>
     ) as $Val);
   }
 
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ObjectPropertiesCopyWith<$Res> get objectProperties {
@@ -103,11 +109,11 @@ class _$ObjectMetaDataCopyWithImpl<$Res, $Val extends ObjectMetaData>
 }
 
 /// @nodoc
-abstract class _$$_ObjectMetaDataCopyWith<$Res>
+abstract class _$$ObjectMetaDataImplCopyWith<$Res>
     implements $ObjectMetaDataCopyWith<$Res> {
-  factory _$$_ObjectMetaDataCopyWith(
-          _$_ObjectMetaData value, $Res Function(_$_ObjectMetaData) then) =
-      __$$_ObjectMetaDataCopyWithImpl<$Res>;
+  factory _$$ObjectMetaDataImplCopyWith(_$ObjectMetaDataImpl value,
+          $Res Function(_$ObjectMetaDataImpl) then) =
+      __$$ObjectMetaDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,13 +129,15 @@ abstract class _$$_ObjectMetaDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ObjectMetaDataCopyWithImpl<$Res>
-    extends _$ObjectMetaDataCopyWithImpl<$Res, _$_ObjectMetaData>
-    implements _$$_ObjectMetaDataCopyWith<$Res> {
-  __$$_ObjectMetaDataCopyWithImpl(
-      _$_ObjectMetaData _value, $Res Function(_$_ObjectMetaData) _then)
+class __$$ObjectMetaDataImplCopyWithImpl<$Res>
+    extends _$ObjectMetaDataCopyWithImpl<$Res, _$ObjectMetaDataImpl>
+    implements _$$ObjectMetaDataImplCopyWith<$Res> {
+  __$$ObjectMetaDataImplCopyWithImpl(
+      _$ObjectMetaDataImpl _value, $Res Function(_$ObjectMetaDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -140,7 +148,7 @@ class __$$_ObjectMetaDataCopyWithImpl<$Res>
     Object? lastModified = null,
     Object? objectProperties = null,
   }) {
-    return _then(_$_ObjectMetaData(
+    return _then(_$ObjectMetaDataImpl(
       id: null == id
           ? _value._id
           : id // ignore: cast_nullable_to_non_nullable
@@ -171,8 +179,8 @@ class __$$_ObjectMetaDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ObjectMetaData extends _ObjectMetaData {
-  const _$_ObjectMetaData(
+class _$ObjectMetaDataImpl extends _ObjectMetaData {
+  const _$ObjectMetaDataImpl(
       {required final List<int> id,
       required this.name,
       final List<int> type = const [],
@@ -223,10 +231,10 @@ class _$_ObjectMetaData extends _ObjectMetaData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ObjectMetaData &&
+            other is _$ObjectMetaDataImpl &&
             const DeepCollectionEquality().equals(other._id, _id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._type, _type) &&
@@ -247,11 +255,14 @@ class _$_ObjectMetaData extends _ObjectMetaData {
       lastModified,
       objectProperties);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ObjectMetaDataCopyWith<_$_ObjectMetaData> get copyWith =>
-      __$$_ObjectMetaDataCopyWithImpl<_$_ObjectMetaData>(this, _$identity);
+  _$$ObjectMetaDataImplCopyWith<_$ObjectMetaDataImpl> get copyWith =>
+      __$$ObjectMetaDataImplCopyWithImpl<_$ObjectMetaDataImpl>(
+          this, _$identity);
 }
 
 abstract class _ObjectMetaData extends ObjectMetaData {
@@ -261,7 +272,7 @@ abstract class _ObjectMetaData extends ObjectMetaData {
       final List<int> type,
       required final List<int> size,
       final String lastModified,
-      required final ObjectProperties objectProperties}) = _$_ObjectMetaData;
+      required final ObjectProperties objectProperties}) = _$ObjectMetaDataImpl;
   const _ObjectMetaData._() : super._();
 
   @override
@@ -276,8 +287,11 @@ abstract class _ObjectMetaData extends ObjectMetaData {
   String get lastModified;
   @override
   ObjectProperties get objectProperties;
+
+  /// Create a copy of ObjectMetaData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_ObjectMetaDataCopyWith<_$_ObjectMetaData> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ObjectMetaDataImplCopyWith<_$ObjectMetaDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

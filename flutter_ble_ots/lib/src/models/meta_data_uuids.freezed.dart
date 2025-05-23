@@ -12,7 +12,7 @@ part of 'meta_data_uuids.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$MetaDataUuids {
@@ -25,8 +25,11 @@ mixin _$MetaDataUuids {
   Uint8List get otsUuid => throw _privateConstructorUsedError;
   Uint8List get featureDiscoveryUuid => throw _privateConstructorUsedError;
   Uint8List get transmissionUuid => throw _privateConstructorUsedError;
+  Uint8List get objectTypeUuid => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MetaDataUuids
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MetaDataUuidsCopyWith<MetaDataUuids> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,7 +49,8 @@ abstract class $MetaDataUuidsCopyWith<$Res> {
       Uint8List objectPropertiesUuid,
       Uint8List otsUuid,
       Uint8List featureDiscoveryUuid,
-      Uint8List transmissionUuid});
+      Uint8List transmissionUuid,
+      Uint8List objectTypeUuid});
 }
 
 /// @nodoc
@@ -59,6 +63,8 @@ class _$MetaDataUuidsCopyWithImpl<$Res, $Val extends MetaDataUuids>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MetaDataUuids
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -71,6 +77,7 @@ class _$MetaDataUuidsCopyWithImpl<$Res, $Val extends MetaDataUuids>
     Object? otsUuid = null,
     Object? featureDiscoveryUuid = null,
     Object? transmissionUuid = null,
+    Object? objectTypeUuid = null,
   }) {
     return _then(_value.copyWith(
       oacpUuid: null == oacpUuid
@@ -109,16 +116,20 @@ class _$MetaDataUuidsCopyWithImpl<$Res, $Val extends MetaDataUuids>
           ? _value.transmissionUuid
           : transmissionUuid // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      objectTypeUuid: null == objectTypeUuid
+          ? _value.objectTypeUuid
+          : objectTypeUuid // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_MetaDataUuidsCopyWith<$Res>
+abstract class _$$MetaDataUuidsImplCopyWith<$Res>
     implements $MetaDataUuidsCopyWith<$Res> {
-  factory _$$_MetaDataUuidsCopyWith(
-          _$_MetaDataUuids value, $Res Function(_$_MetaDataUuids) then) =
-      __$$_MetaDataUuidsCopyWithImpl<$Res>;
+  factory _$$MetaDataUuidsImplCopyWith(
+          _$MetaDataUuidsImpl value, $Res Function(_$MetaDataUuidsImpl) then) =
+      __$$MetaDataUuidsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -130,17 +141,20 @@ abstract class _$$_MetaDataUuidsCopyWith<$Res>
       Uint8List objectPropertiesUuid,
       Uint8List otsUuid,
       Uint8List featureDiscoveryUuid,
-      Uint8List transmissionUuid});
+      Uint8List transmissionUuid,
+      Uint8List objectTypeUuid});
 }
 
 /// @nodoc
-class __$$_MetaDataUuidsCopyWithImpl<$Res>
-    extends _$MetaDataUuidsCopyWithImpl<$Res, _$_MetaDataUuids>
-    implements _$$_MetaDataUuidsCopyWith<$Res> {
-  __$$_MetaDataUuidsCopyWithImpl(
-      _$_MetaDataUuids _value, $Res Function(_$_MetaDataUuids) _then)
+class __$$MetaDataUuidsImplCopyWithImpl<$Res>
+    extends _$MetaDataUuidsCopyWithImpl<$Res, _$MetaDataUuidsImpl>
+    implements _$$MetaDataUuidsImplCopyWith<$Res> {
+  __$$MetaDataUuidsImplCopyWithImpl(
+      _$MetaDataUuidsImpl _value, $Res Function(_$MetaDataUuidsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MetaDataUuids
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,8 +167,9 @@ class __$$_MetaDataUuidsCopyWithImpl<$Res>
     Object? otsUuid = null,
     Object? featureDiscoveryUuid = null,
     Object? transmissionUuid = null,
+    Object? objectTypeUuid = null,
   }) {
-    return _then(_$_MetaDataUuids(
+    return _then(_$MetaDataUuidsImpl(
       oacpUuid: null == oacpUuid
           ? _value.oacpUuid
           : oacpUuid // ignore: cast_nullable_to_non_nullable
@@ -191,14 +206,18 @@ class __$$_MetaDataUuidsCopyWithImpl<$Res>
           ? _value.transmissionUuid
           : transmissionUuid // ignore: cast_nullable_to_non_nullable
               as Uint8List,
+      objectTypeUuid: null == objectTypeUuid
+          ? _value.objectTypeUuid
+          : objectTypeUuid // ignore: cast_nullable_to_non_nullable
+              as Uint8List,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_MetaDataUuids implements _MetaDataUuids {
-  const _$_MetaDataUuids(
+class _$MetaDataUuidsImpl implements _MetaDataUuids {
+  const _$MetaDataUuidsImpl(
       {required this.oacpUuid,
       required this.olcpUuid,
       required this.objectIdUuid,
@@ -207,7 +226,8 @@ class _$_MetaDataUuids implements _MetaDataUuids {
       required this.objectPropertiesUuid,
       required this.otsUuid,
       required this.featureDiscoveryUuid,
-      required this.transmissionUuid});
+      required this.transmissionUuid,
+      required this.objectTypeUuid});
 
   @override
   final Uint8List oacpUuid;
@@ -227,17 +247,19 @@ class _$_MetaDataUuids implements _MetaDataUuids {
   final Uint8List featureDiscoveryUuid;
   @override
   final Uint8List transmissionUuid;
+  @override
+  final Uint8List objectTypeUuid;
 
   @override
   String toString() {
-    return 'MetaDataUuids(oacpUuid: $oacpUuid, olcpUuid: $olcpUuid, objectIdUuid: $objectIdUuid, objectNameUuid: $objectNameUuid, objectSizeUuid: $objectSizeUuid, objectPropertiesUuid: $objectPropertiesUuid, otsUuid: $otsUuid, featureDiscoveryUuid: $featureDiscoveryUuid, transmissionUuid: $transmissionUuid)';
+    return 'MetaDataUuids(oacpUuid: $oacpUuid, olcpUuid: $olcpUuid, objectIdUuid: $objectIdUuid, objectNameUuid: $objectNameUuid, objectSizeUuid: $objectSizeUuid, objectPropertiesUuid: $objectPropertiesUuid, otsUuid: $otsUuid, featureDiscoveryUuid: $featureDiscoveryUuid, transmissionUuid: $transmissionUuid, objectTypeUuid: $objectTypeUuid)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MetaDataUuids &&
+            other is _$MetaDataUuidsImpl &&
             const DeepCollectionEquality().equals(other.oacpUuid, oacpUuid) &&
             const DeepCollectionEquality().equals(other.olcpUuid, olcpUuid) &&
             const DeepCollectionEquality()
@@ -252,7 +274,9 @@ class _$_MetaDataUuids implements _MetaDataUuids {
             const DeepCollectionEquality()
                 .equals(other.featureDiscoveryUuid, featureDiscoveryUuid) &&
             const DeepCollectionEquality()
-                .equals(other.transmissionUuid, transmissionUuid));
+                .equals(other.transmissionUuid, transmissionUuid) &&
+            const DeepCollectionEquality()
+                .equals(other.objectTypeUuid, objectTypeUuid));
   }
 
   @override
@@ -266,13 +290,16 @@ class _$_MetaDataUuids implements _MetaDataUuids {
       const DeepCollectionEquality().hash(objectPropertiesUuid),
       const DeepCollectionEquality().hash(otsUuid),
       const DeepCollectionEquality().hash(featureDiscoveryUuid),
-      const DeepCollectionEquality().hash(transmissionUuid));
+      const DeepCollectionEquality().hash(transmissionUuid),
+      const DeepCollectionEquality().hash(objectTypeUuid));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MetaDataUuids
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MetaDataUuidsCopyWith<_$_MetaDataUuids> get copyWith =>
-      __$$_MetaDataUuidsCopyWithImpl<_$_MetaDataUuids>(this, _$identity);
+  _$$MetaDataUuidsImplCopyWith<_$MetaDataUuidsImpl> get copyWith =>
+      __$$MetaDataUuidsImplCopyWithImpl<_$MetaDataUuidsImpl>(this, _$identity);
 }
 
 abstract class _MetaDataUuids implements MetaDataUuids {
@@ -285,7 +312,8 @@ abstract class _MetaDataUuids implements MetaDataUuids {
       required final Uint8List objectPropertiesUuid,
       required final Uint8List otsUuid,
       required final Uint8List featureDiscoveryUuid,
-      required final Uint8List transmissionUuid}) = _$_MetaDataUuids;
+      required final Uint8List transmissionUuid,
+      required final Uint8List objectTypeUuid}) = _$MetaDataUuidsImpl;
 
   @override
   Uint8List get oacpUuid;
@@ -306,7 +334,12 @@ abstract class _MetaDataUuids implements MetaDataUuids {
   @override
   Uint8List get transmissionUuid;
   @override
-  @JsonKey(ignore: true)
-  _$$_MetaDataUuidsCopyWith<_$_MetaDataUuids> get copyWith =>
+  Uint8List get objectTypeUuid;
+
+  /// Create a copy of MetaDataUuids
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MetaDataUuidsImplCopyWith<_$MetaDataUuidsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

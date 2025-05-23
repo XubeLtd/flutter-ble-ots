@@ -12,14 +12,16 @@ part of 'ots_features.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OtsFeatures {
   OACPFeatures get oacpFeatures => throw _privateConstructorUsedError;
   OLCPFeatures get olcpFeatures => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OtsFeaturesCopyWith<OtsFeatures> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$OtsFeaturesCopyWithImpl<$Res, $Val extends OtsFeatures>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -64,6 +68,8 @@ class _$OtsFeaturesCopyWithImpl<$Res, $Val extends OtsFeatures>
     ) as $Val);
   }
 
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OACPFeaturesCopyWith<$Res> get oacpFeatures {
@@ -72,6 +78,8 @@ class _$OtsFeaturesCopyWithImpl<$Res, $Val extends OtsFeatures>
     });
   }
 
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $OLCPFeaturesCopyWith<$Res> get olcpFeatures {
@@ -82,11 +90,11 @@ class _$OtsFeaturesCopyWithImpl<$Res, $Val extends OtsFeatures>
 }
 
 /// @nodoc
-abstract class _$$_OtsFeaturesCopyWith<$Res>
+abstract class _$$OtsFeaturesImplCopyWith<$Res>
     implements $OtsFeaturesCopyWith<$Res> {
-  factory _$$_OtsFeaturesCopyWith(
-          _$_OtsFeatures value, $Res Function(_$_OtsFeatures) then) =
-      __$$_OtsFeaturesCopyWithImpl<$Res>;
+  factory _$$OtsFeaturesImplCopyWith(
+          _$OtsFeaturesImpl value, $Res Function(_$OtsFeaturesImpl) then) =
+      __$$OtsFeaturesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({OACPFeatures oacpFeatures, OLCPFeatures olcpFeatures});
@@ -98,20 +106,22 @@ abstract class _$$_OtsFeaturesCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OtsFeaturesCopyWithImpl<$Res>
-    extends _$OtsFeaturesCopyWithImpl<$Res, _$_OtsFeatures>
-    implements _$$_OtsFeaturesCopyWith<$Res> {
-  __$$_OtsFeaturesCopyWithImpl(
-      _$_OtsFeatures _value, $Res Function(_$_OtsFeatures) _then)
+class __$$OtsFeaturesImplCopyWithImpl<$Res>
+    extends _$OtsFeaturesCopyWithImpl<$Res, _$OtsFeaturesImpl>
+    implements _$$OtsFeaturesImplCopyWith<$Res> {
+  __$$OtsFeaturesImplCopyWithImpl(
+      _$OtsFeaturesImpl _value, $Res Function(_$OtsFeaturesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? oacpFeatures = null,
     Object? olcpFeatures = null,
   }) {
-    return _then(_$_OtsFeatures(
+    return _then(_$OtsFeaturesImpl(
       oacpFeatures: null == oacpFeatures
           ? _value.oacpFeatures
           : oacpFeatures // ignore: cast_nullable_to_non_nullable
@@ -126,8 +136,8 @@ class __$$_OtsFeaturesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OtsFeatures implements _OtsFeatures {
-  const _$_OtsFeatures(
+class _$OtsFeaturesImpl implements _OtsFeatures {
+  const _$OtsFeaturesImpl(
       {required this.oacpFeatures, required this.olcpFeatures});
 
   @override
@@ -141,10 +151,10 @@ class _$_OtsFeatures implements _OtsFeatures {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OtsFeatures &&
+            other is _$OtsFeaturesImpl &&
             (identical(other.oacpFeatures, oacpFeatures) ||
                 other.oacpFeatures == oacpFeatures) &&
             (identical(other.olcpFeatures, olcpFeatures) ||
@@ -154,24 +164,29 @@ class _$_OtsFeatures implements _OtsFeatures {
   @override
   int get hashCode => Object.hash(runtimeType, oacpFeatures, olcpFeatures);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OtsFeaturesCopyWith<_$_OtsFeatures> get copyWith =>
-      __$$_OtsFeaturesCopyWithImpl<_$_OtsFeatures>(this, _$identity);
+  _$$OtsFeaturesImplCopyWith<_$OtsFeaturesImpl> get copyWith =>
+      __$$OtsFeaturesImplCopyWithImpl<_$OtsFeaturesImpl>(this, _$identity);
 }
 
 abstract class _OtsFeatures implements OtsFeatures {
   const factory _OtsFeatures(
       {required final OACPFeatures oacpFeatures,
-      required final OLCPFeatures olcpFeatures}) = _$_OtsFeatures;
+      required final OLCPFeatures olcpFeatures}) = _$OtsFeaturesImpl;
 
   @override
   OACPFeatures get oacpFeatures;
   @override
   OLCPFeatures get olcpFeatures;
+
+  /// Create a copy of OtsFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_OtsFeaturesCopyWith<_$_OtsFeatures> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OtsFeaturesImplCopyWith<_$OtsFeaturesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -16,5 +16,6 @@ class MetaDataUuids with _$MetaDataUuids {
     required Uint8List otsUuid,
     required Uint8List featureDiscoveryUuid,
     required Uint8List transmissionUuid,
+    required Uint8List objectTypeUuid,
   }) = _MetaDataUuids;
 }

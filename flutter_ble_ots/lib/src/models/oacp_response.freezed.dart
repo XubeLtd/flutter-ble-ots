@@ -12,7 +12,7 @@ part of 'oacp_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OacpResponse {
@@ -20,7 +20,9 @@ mixin _$OacpResponse {
   int get resultCode => throw _privateConstructorUsedError;
   List<int> get responseParameter => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OacpResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OacpResponseCopyWith<OacpResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$OacpResponseCopyWithImpl<$Res, $Val extends OacpResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OacpResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -69,24 +73,26 @@ class _$OacpResponseCopyWithImpl<$Res, $Val extends OacpResponse>
 }
 
 /// @nodoc
-abstract class _$$_OacpResponseCopyWith<$Res>
+abstract class _$$OacpResponseImplCopyWith<$Res>
     implements $OacpResponseCopyWith<$Res> {
-  factory _$$_OacpResponseCopyWith(
-          _$_OacpResponse value, $Res Function(_$_OacpResponse) then) =
-      __$$_OacpResponseCopyWithImpl<$Res>;
+  factory _$$OacpResponseImplCopyWith(
+          _$OacpResponseImpl value, $Res Function(_$OacpResponseImpl) then) =
+      __$$OacpResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int requestCode, int resultCode, List<int> responseParameter});
 }
 
 /// @nodoc
-class __$$_OacpResponseCopyWithImpl<$Res>
-    extends _$OacpResponseCopyWithImpl<$Res, _$_OacpResponse>
-    implements _$$_OacpResponseCopyWith<$Res> {
-  __$$_OacpResponseCopyWithImpl(
-      _$_OacpResponse _value, $Res Function(_$_OacpResponse) _then)
+class __$$OacpResponseImplCopyWithImpl<$Res>
+    extends _$OacpResponseCopyWithImpl<$Res, _$OacpResponseImpl>
+    implements _$$OacpResponseImplCopyWith<$Res> {
+  __$$OacpResponseImplCopyWithImpl(
+      _$OacpResponseImpl _value, $Res Function(_$OacpResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OacpResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,7 +100,7 @@ class __$$_OacpResponseCopyWithImpl<$Res>
     Object? resultCode = null,
     Object? responseParameter = null,
   }) {
-    return _then(_$_OacpResponse(
+    return _then(_$OacpResponseImpl(
       requestCode: null == requestCode
           ? _value.requestCode
           : requestCode // ignore: cast_nullable_to_non_nullable
@@ -113,8 +119,8 @@ class __$$_OacpResponseCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OacpResponse implements _OacpResponse {
-  const _$_OacpResponse(
+class _$OacpResponseImpl implements _OacpResponse {
+  const _$OacpResponseImpl(
       {required this.requestCode,
       required this.resultCode,
       final List<int> responseParameter = const []})
@@ -140,10 +146,10 @@ class _$_OacpResponse implements _OacpResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OacpResponse &&
+            other is _$OacpResponseImpl &&
             (identical(other.requestCode, requestCode) ||
                 other.requestCode == requestCode) &&
             (identical(other.resultCode, resultCode) ||
@@ -156,18 +162,20 @@ class _$_OacpResponse implements _OacpResponse {
   int get hashCode => Object.hash(runtimeType, requestCode, resultCode,
       const DeepCollectionEquality().hash(_responseParameter));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OacpResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OacpResponseCopyWith<_$_OacpResponse> get copyWith =>
-      __$$_OacpResponseCopyWithImpl<_$_OacpResponse>(this, _$identity);
+  _$$OacpResponseImplCopyWith<_$OacpResponseImpl> get copyWith =>
+      __$$OacpResponseImplCopyWithImpl<_$OacpResponseImpl>(this, _$identity);
 }
 
 abstract class _OacpResponse implements OacpResponse {
   const factory _OacpResponse(
       {required final int requestCode,
       required final int resultCode,
-      final List<int> responseParameter}) = _$_OacpResponse;
+      final List<int> responseParameter}) = _$OacpResponseImpl;
 
   @override
   int get requestCode;
@@ -175,8 +183,11 @@ abstract class _OacpResponse implements OacpResponse {
   int get resultCode;
   @override
   List<int> get responseParameter;
+
+  /// Create a copy of OacpResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_OacpResponseCopyWith<_$_OacpResponse> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OacpResponseImplCopyWith<_$OacpResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

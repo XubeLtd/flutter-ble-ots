@@ -5,17 +5,33 @@ import 'oacp_constants.dart';
 class OacpOpCodeUtils {
   static List<int> getReadRequest(int offset, int length) {
     if (_isIntParameterValid(offset) && _isIntParameterValid(length)) {
-      return [OACPConstants.READ] + Utils.getIntAsByteArray(offset) + Utils.getIntAsByteArray(length);
+      return [OACPConstants.READ] +
+          Utils.getIntAsByteArray(offset) +
+          Utils.getIntAsByteArray(length);
     } else {
       throw Exception('InvalidOACPCommandParameterException("read")');
     }
   }
 
+  // static List<int> getSelectRequest(List<int> id) {
+  //   const expectedLength = 6;
+  //   if (id.length != expectedLength) {
+  //     throw Exception(
+  //         'Invalid object ID length. Expected $expectedLength bytes.');
+  //   }
+  //   return [OACPConstants.SELECT, ...id];
+  // }
+
   static List<int> getExecuteRequest() => [OACPConstants.EXECUTE];
 
   static List<int> getWriteRequest(int offset, int length, int mode) {
     if (_isIntParameterValid(offset) && _isIntParameterValid(length)) {
-      return [OACPConstants.WRITE, ...Utils.getIntAsByteArray(offset), ...Utils.getIntAsByteArray(length), mode];
+      return [
+        OACPConstants.WRITE,
+        ...Utils.getIntAsByteArray(offset),
+        ...Utils.getIntAsByteArray(length),
+        mode
+      ];
     } else {
       throw Exception('InvalidOACPCommandParameterException("write")');
     }

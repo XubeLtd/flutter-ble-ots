@@ -12,7 +12,7 @@ part of 'common_characteristic.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CommonCharacteristic {
@@ -20,7 +20,9 @@ mixin _$CommonCharacteristic {
   Uint8List get serviceId => throw _privateConstructorUsedError;
   String get deviceId => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommonCharacteristic
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CommonCharacteristicCopyWith<CommonCharacteristic> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$CommonCharacteristicCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CommonCharacteristic
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -70,24 +74,26 @@ class _$CommonCharacteristicCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_CommonCharacteristicCopyWith<$Res>
+abstract class _$$CommonCharacteristicImplCopyWith<$Res>
     implements $CommonCharacteristicCopyWith<$Res> {
-  factory _$$_CommonCharacteristicCopyWith(_$_CommonCharacteristic value,
-          $Res Function(_$_CommonCharacteristic) then) =
-      __$$_CommonCharacteristicCopyWithImpl<$Res>;
+  factory _$$CommonCharacteristicImplCopyWith(_$CommonCharacteristicImpl value,
+          $Res Function(_$CommonCharacteristicImpl) then) =
+      __$$CommonCharacteristicImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Uint8List characteristicId, Uint8List serviceId, String deviceId});
 }
 
 /// @nodoc
-class __$$_CommonCharacteristicCopyWithImpl<$Res>
-    extends _$CommonCharacteristicCopyWithImpl<$Res, _$_CommonCharacteristic>
-    implements _$$_CommonCharacteristicCopyWith<$Res> {
-  __$$_CommonCharacteristicCopyWithImpl(_$_CommonCharacteristic _value,
-      $Res Function(_$_CommonCharacteristic) _then)
+class __$$CommonCharacteristicImplCopyWithImpl<$Res>
+    extends _$CommonCharacteristicCopyWithImpl<$Res, _$CommonCharacteristicImpl>
+    implements _$$CommonCharacteristicImplCopyWith<$Res> {
+  __$$CommonCharacteristicImplCopyWithImpl(_$CommonCharacteristicImpl _value,
+      $Res Function(_$CommonCharacteristicImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CommonCharacteristic
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -95,7 +101,7 @@ class __$$_CommonCharacteristicCopyWithImpl<$Res>
     Object? serviceId = null,
     Object? deviceId = null,
   }) {
-    return _then(_$_CommonCharacteristic(
+    return _then(_$CommonCharacteristicImpl(
       characteristicId: null == characteristicId
           ? _value.characteristicId
           : characteristicId // ignore: cast_nullable_to_non_nullable
@@ -114,8 +120,8 @@ class __$$_CommonCharacteristicCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CommonCharacteristic implements _CommonCharacteristic {
-  _$_CommonCharacteristic(
+class _$CommonCharacteristicImpl implements _CommonCharacteristic {
+  _$CommonCharacteristicImpl(
       {required this.characteristicId,
       required this.serviceId,
       required this.deviceId});
@@ -133,10 +139,10 @@ class _$_CommonCharacteristic implements _CommonCharacteristic {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CommonCharacteristic &&
+            other is _$CommonCharacteristicImpl &&
             const DeepCollectionEquality()
                 .equals(other.characteristicId, characteristicId) &&
             const DeepCollectionEquality().equals(other.serviceId, serviceId) &&
@@ -151,19 +157,22 @@ class _$_CommonCharacteristic implements _CommonCharacteristic {
       const DeepCollectionEquality().hash(serviceId),
       deviceId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CommonCharacteristic
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CommonCharacteristicCopyWith<_$_CommonCharacteristic> get copyWith =>
-      __$$_CommonCharacteristicCopyWithImpl<_$_CommonCharacteristic>(
-          this, _$identity);
+  _$$CommonCharacteristicImplCopyWith<_$CommonCharacteristicImpl>
+      get copyWith =>
+          __$$CommonCharacteristicImplCopyWithImpl<_$CommonCharacteristicImpl>(
+              this, _$identity);
 }
 
 abstract class _CommonCharacteristic implements CommonCharacteristic {
   factory _CommonCharacteristic(
       {required final Uint8List characteristicId,
       required final Uint8List serviceId,
-      required final String deviceId}) = _$_CommonCharacteristic;
+      required final String deviceId}) = _$CommonCharacteristicImpl;
 
   @override
   Uint8List get characteristicId;
@@ -171,8 +180,11 @@ abstract class _CommonCharacteristic implements CommonCharacteristic {
   Uint8List get serviceId;
   @override
   String get deviceId;
+
+  /// Create a copy of CommonCharacteristic
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_CommonCharacteristicCopyWith<_$_CommonCharacteristic> get copyWith =>
-      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommonCharacteristicImplCopyWith<_$CommonCharacteristicImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

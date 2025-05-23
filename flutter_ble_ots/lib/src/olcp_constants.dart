@@ -7,6 +7,7 @@ abstract class OLCPConstants {
   static const PREVIOUS = 0x03;
   static const NEXT = 0x04;
   static const GO_TO = 0x05;
+  static const SELECT = 0x05;
   static const ORDER = 0x06;
   static const REQUEST_NUMBER_OF_OBJECTS = 0x07;
   static const CLEAR_MARKING = 0x08;

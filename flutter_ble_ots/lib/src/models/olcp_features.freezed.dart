@@ -12,7 +12,7 @@ part of 'olcp_features.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OLCPFeatures {
@@ -22,7 +22,9 @@ mixin _$OLCPFeatures {
       throw _privateConstructorUsedError;
   bool get clearMarkingOpCodeSupported => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OLCPFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OLCPFeaturesCopyWith<OLCPFeatures> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +52,8 @@ class _$OLCPFeaturesCopyWithImpl<$Res, $Val extends OLCPFeatures>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OLCPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -81,11 +85,11 @@ class _$OLCPFeaturesCopyWithImpl<$Res, $Val extends OLCPFeatures>
 }
 
 /// @nodoc
-abstract class _$$_OLCPFeaturesCopyWith<$Res>
+abstract class _$$OLCPFeaturesImplCopyWith<$Res>
     implements $OLCPFeaturesCopyWith<$Res> {
-  factory _$$_OLCPFeaturesCopyWith(
-          _$_OLCPFeatures value, $Res Function(_$_OLCPFeatures) then) =
-      __$$_OLCPFeaturesCopyWithImpl<$Res>;
+  factory _$$OLCPFeaturesImplCopyWith(
+          _$OLCPFeaturesImpl value, $Res Function(_$OLCPFeaturesImpl) then) =
+      __$$OLCPFeaturesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -96,13 +100,15 @@ abstract class _$$_OLCPFeaturesCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OLCPFeaturesCopyWithImpl<$Res>
-    extends _$OLCPFeaturesCopyWithImpl<$Res, _$_OLCPFeatures>
-    implements _$$_OLCPFeaturesCopyWith<$Res> {
-  __$$_OLCPFeaturesCopyWithImpl(
-      _$_OLCPFeatures _value, $Res Function(_$_OLCPFeatures) _then)
+class __$$OLCPFeaturesImplCopyWithImpl<$Res>
+    extends _$OLCPFeaturesCopyWithImpl<$Res, _$OLCPFeaturesImpl>
+    implements _$$OLCPFeaturesImplCopyWith<$Res> {
+  __$$OLCPFeaturesImplCopyWithImpl(
+      _$OLCPFeaturesImpl _value, $Res Function(_$OLCPFeaturesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OLCPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -111,7 +117,7 @@ class __$$_OLCPFeaturesCopyWithImpl<$Res>
     Object? requestNumberOfObjectsOpCodeSupported = null,
     Object? clearMarkingOpCodeSupported = null,
   }) {
-    return _then(_$_OLCPFeatures(
+    return _then(_$OLCPFeaturesImpl(
       null == goToOpCodeSupported
           ? _value.goToOpCodeSupported
           : goToOpCodeSupported // ignore: cast_nullable_to_non_nullable
@@ -134,8 +140,8 @@ class __$$_OLCPFeaturesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OLCPFeatures extends _OLCPFeatures {
-  const _$_OLCPFeatures(
+class _$OLCPFeaturesImpl extends _OLCPFeatures {
+  const _$OLCPFeaturesImpl(
       this.goToOpCodeSupported,
       this.orderOpCodeSupported,
       this.requestNumberOfObjectsOpCodeSupported,
@@ -157,10 +163,10 @@ class _$_OLCPFeatures extends _OLCPFeatures {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OLCPFeatures &&
+            other is _$OLCPFeaturesImpl &&
             (identical(other.goToOpCodeSupported, goToOpCodeSupported) ||
                 other.goToOpCodeSupported == goToOpCodeSupported) &&
             (identical(other.orderOpCodeSupported, orderOpCodeSupported) ||
@@ -183,11 +189,13 @@ class _$_OLCPFeatures extends _OLCPFeatures {
       requestNumberOfObjectsOpCodeSupported,
       clearMarkingOpCodeSupported);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OLCPFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OLCPFeaturesCopyWith<_$_OLCPFeatures> get copyWith =>
-      __$$_OLCPFeaturesCopyWithImpl<_$_OLCPFeatures>(this, _$identity);
+  _$$OLCPFeaturesImplCopyWith<_$OLCPFeaturesImpl> get copyWith =>
+      __$$OLCPFeaturesImplCopyWithImpl<_$OLCPFeaturesImpl>(this, _$identity);
 }
 
 abstract class _OLCPFeatures extends OLCPFeatures {
@@ -195,7 +203,7 @@ abstract class _OLCPFeatures extends OLCPFeatures {
       final bool goToOpCodeSupported,
       final bool orderOpCodeSupported,
       final bool requestNumberOfObjectsOpCodeSupported,
-      final bool clearMarkingOpCodeSupported) = _$_OLCPFeatures;
+      final bool clearMarkingOpCodeSupported) = _$OLCPFeaturesImpl;
   const _OLCPFeatures._() : super._();
 
   @override
@@ -206,8 +214,11 @@ abstract class _OLCPFeatures extends OLCPFeatures {
   bool get requestNumberOfObjectsOpCodeSupported;
   @override
   bool get clearMarkingOpCodeSupported;
+
+  /// Create a copy of OLCPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_OLCPFeaturesCopyWith<_$_OLCPFeatures> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OLCPFeaturesImplCopyWith<_$OLCPFeaturesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

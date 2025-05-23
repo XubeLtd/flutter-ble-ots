@@ -12,7 +12,7 @@ part of 'oacp_features.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$OACPFeatures {
@@ -29,7 +29,9 @@ mixin _$OACPFeatures {
   bool get patchingOfObjectsSupported => throw _privateConstructorUsedError;
   bool get abortOpCodeSupported => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OACPFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $OACPFeaturesCopyWith<OACPFeatures> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,6 +65,8 @@ class _$OACPFeaturesCopyWithImpl<$Res, $Val extends OACPFeatures>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of OACPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -124,11 +128,11 @@ class _$OACPFeaturesCopyWithImpl<$Res, $Val extends OACPFeatures>
 }
 
 /// @nodoc
-abstract class _$$_OACPFeaturesCopyWith<$Res>
+abstract class _$$OACPFeaturesImplCopyWith<$Res>
     implements $OACPFeaturesCopyWith<$Res> {
-  factory _$$_OACPFeaturesCopyWith(
-          _$_OACPFeatures value, $Res Function(_$_OACPFeatures) then) =
-      __$$_OACPFeaturesCopyWithImpl<$Res>;
+  factory _$$OACPFeaturesImplCopyWith(
+          _$OACPFeaturesImpl value, $Res Function(_$OACPFeaturesImpl) then) =
+      __$$OACPFeaturesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -145,13 +149,15 @@ abstract class _$$_OACPFeaturesCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OACPFeaturesCopyWithImpl<$Res>
-    extends _$OACPFeaturesCopyWithImpl<$Res, _$_OACPFeatures>
-    implements _$$_OACPFeaturesCopyWith<$Res> {
-  __$$_OACPFeaturesCopyWithImpl(
-      _$_OACPFeatures _value, $Res Function(_$_OACPFeatures) _then)
+class __$$OACPFeaturesImplCopyWithImpl<$Res>
+    extends _$OACPFeaturesCopyWithImpl<$Res, _$OACPFeaturesImpl>
+    implements _$$OACPFeaturesImplCopyWith<$Res> {
+  __$$OACPFeaturesImplCopyWithImpl(
+      _$OACPFeaturesImpl _value, $Res Function(_$OACPFeaturesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OACPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,7 +172,7 @@ class __$$_OACPFeaturesCopyWithImpl<$Res>
     Object? patchingOfObjectsSupported = null,
     Object? abortOpCodeSupported = null,
   }) {
-    return _then(_$_OACPFeatures(
+    return _then(_$OACPFeaturesImpl(
       null == createOpCodeSupported
           ? _value.createOpCodeSupported
           : createOpCodeSupported // ignore: cast_nullable_to_non_nullable
@@ -213,8 +219,8 @@ class __$$_OACPFeaturesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_OACPFeatures extends _OACPFeatures {
-  const _$_OACPFeatures(
+class _$OACPFeaturesImpl extends _OACPFeatures {
+  const _$OACPFeaturesImpl(
       this.createOpCodeSupported,
       this.deleteOpCodeSupported,
       this.calculateChecksumOpCodeSupported,
@@ -254,10 +260,10 @@ class _$_OACPFeatures extends _OACPFeatures {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OACPFeatures &&
+            other is _$OACPFeaturesImpl &&
             (identical(other.createOpCodeSupported, createOpCodeSupported) ||
                 other.createOpCodeSupported == createOpCodeSupported) &&
             (identical(other.deleteOpCodeSupported, deleteOpCodeSupported) ||
@@ -305,11 +311,13 @@ class _$_OACPFeatures extends _OACPFeatures {
       patchingOfObjectsSupported,
       abortOpCodeSupported);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OACPFeatures
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OACPFeaturesCopyWith<_$_OACPFeatures> get copyWith =>
-      __$$_OACPFeaturesCopyWithImpl<_$_OACPFeatures>(this, _$identity);
+  _$$OACPFeaturesImplCopyWith<_$OACPFeaturesImpl> get copyWith =>
+      __$$OACPFeaturesImplCopyWithImpl<_$OACPFeaturesImpl>(this, _$identity);
 }
 
 abstract class _OACPFeatures extends OACPFeatures {
@@ -323,7 +331,7 @@ abstract class _OACPFeatures extends OACPFeatures {
       final bool appendingAdditionalDataToObjectsSupported,
       final bool truncationOfObjectsSupported,
       final bool patchingOfObjectsSupported,
-      final bool abortOpCodeSupported) = _$_OACPFeatures;
+      final bool abortOpCodeSupported) = _$OACPFeaturesImpl;
   const _OACPFeatures._() : super._();
 
   @override
@@ -346,8 +354,11 @@ abstract class _OACPFeatures extends OACPFeatures {
   bool get patchingOfObjectsSupported;
   @override
   bool get abortOpCodeSupported;
+
+  /// Create a copy of OACPFeatures
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_OACPFeaturesCopyWith<_$_OACPFeatures> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OACPFeaturesImplCopyWith<_$OACPFeaturesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

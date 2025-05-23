@@ -8,6 +8,7 @@ abstract class OACPConstants {
   static const READ = 0x05;
   static const WRITE = 0x06;
   static const ABORT = 0x07;
+
   static const RESPONSE_CODE = 0x60;
 
   /* result codes */

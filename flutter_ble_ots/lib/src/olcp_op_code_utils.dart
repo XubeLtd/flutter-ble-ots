@@ -8,5 +8,4 @@ abstract class OlcpOpCodeUtils {
       throw Exception('OLCPOpCodeNotSupportedException($opCode)');
     }
   }
-  
 }

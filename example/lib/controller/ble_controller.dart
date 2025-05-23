@@ -10,6 +10,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../services/ble_scanner.dart';
 import 'ble_state.dart';
+String getHexFromUint8List(Uint8List inputAsUint8List) =>
+    String.fromCharCodes(inputAsUint8List);
+
+Uint8List getUint8ListFromHex(String inputAsHex) =>
+    Uint8List.fromList(inputAsHex.codeUnits);
 
 final bleControllerProvider = StateNotifierProvider<BleController, BleState>((ref) {
   return BleController(ref.watch(scannerProvider), ref.watch(bleDeviceInteractorProvider), ref.watch(bleProvider));

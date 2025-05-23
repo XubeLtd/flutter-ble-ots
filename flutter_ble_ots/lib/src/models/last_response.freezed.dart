@@ -12,14 +12,16 @@ part of 'last_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$LastResponse<Type> {
   DateTime get timeStamp => throw _privateConstructorUsedError;
   Type get response => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LastResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LastResponseCopyWith<Type, LastResponse<Type>> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -43,6 +45,8 @@ class _$LastResponseCopyWithImpl<Type, $Res, $Val extends LastResponse<Type>>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LastResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,31 +67,33 @@ class _$LastResponseCopyWithImpl<Type, $Res, $Val extends LastResponse<Type>>
 }
 
 /// @nodoc
-abstract class _$$_LastResponseCopyWith<Type, $Res>
+abstract class _$$LastResponseImplCopyWith<Type, $Res>
     implements $LastResponseCopyWith<Type, $Res> {
-  factory _$$_LastResponseCopyWith(_$_LastResponse<Type> value,
-          $Res Function(_$_LastResponse<Type>) then) =
-      __$$_LastResponseCopyWithImpl<Type, $Res>;
+  factory _$$LastResponseImplCopyWith(_$LastResponseImpl<Type> value,
+          $Res Function(_$LastResponseImpl<Type>) then) =
+      __$$LastResponseImplCopyWithImpl<Type, $Res>;
   @override
   @useResult
   $Res call({DateTime timeStamp, Type response});
 }
 
 /// @nodoc
-class __$$_LastResponseCopyWithImpl<Type, $Res>
-    extends _$LastResponseCopyWithImpl<Type, $Res, _$_LastResponse<Type>>
-    implements _$$_LastResponseCopyWith<Type, $Res> {
-  __$$_LastResponseCopyWithImpl(
-      _$_LastResponse<Type> _value, $Res Function(_$_LastResponse<Type>) _then)
+class __$$LastResponseImplCopyWithImpl<Type, $Res>
+    extends _$LastResponseCopyWithImpl<Type, $Res, _$LastResponseImpl<Type>>
+    implements _$$LastResponseImplCopyWith<Type, $Res> {
+  __$$LastResponseImplCopyWithImpl(_$LastResponseImpl<Type> _value,
+      $Res Function(_$LastResponseImpl<Type>) _then)
       : super(_value, _then);
 
+  /// Create a copy of LastResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? timeStamp = null,
     Object? response = freezed,
   }) {
-    return _then(_$_LastResponse<Type>(
+    return _then(_$LastResponseImpl<Type>(
       timeStamp: null == timeStamp
           ? _value.timeStamp
           : timeStamp // ignore: cast_nullable_to_non_nullable
@@ -102,8 +108,8 @@ class __$$_LastResponseCopyWithImpl<Type, $Res>
 
 /// @nodoc
 
-class _$_LastResponse<Type> implements _LastResponse<Type> {
-  _$_LastResponse({required this.timeStamp, required this.response});
+class _$LastResponseImpl<Type> implements _LastResponse<Type> {
+  _$LastResponseImpl({required this.timeStamp, required this.response});
 
   @override
   final DateTime timeStamp;
@@ -116,10 +122,10 @@ class _$_LastResponse<Type> implements _LastResponse<Type> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LastResponse<Type> &&
+            other is _$LastResponseImpl<Type> &&
             (identical(other.timeStamp, timeStamp) ||
                 other.timeStamp == timeStamp) &&
             const DeepCollectionEquality().equals(other.response, response));
@@ -129,25 +135,30 @@ class _$_LastResponse<Type> implements _LastResponse<Type> {
   int get hashCode => Object.hash(
       runtimeType, timeStamp, const DeepCollectionEquality().hash(response));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LastResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LastResponseCopyWith<Type, _$_LastResponse<Type>> get copyWith =>
-      __$$_LastResponseCopyWithImpl<Type, _$_LastResponse<Type>>(
+  _$$LastResponseImplCopyWith<Type, _$LastResponseImpl<Type>> get copyWith =>
+      __$$LastResponseImplCopyWithImpl<Type, _$LastResponseImpl<Type>>(
           this, _$identity);
 }
 
 abstract class _LastResponse<Type> implements LastResponse<Type> {
   factory _LastResponse(
       {required final DateTime timeStamp,
-      required final Type response}) = _$_LastResponse<Type>;
+      required final Type response}) = _$LastResponseImpl<Type>;
 
   @override
   DateTime get timeStamp;
   @override
   Type get response;
+
+  /// Create a copy of LastResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_LastResponseCopyWith<Type, _$_LastResponse<Type>> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LastResponseImplCopyWith<Type, _$LastResponseImpl<Type>> get copyWith =>
       throw _privateConstructorUsedError;
 }

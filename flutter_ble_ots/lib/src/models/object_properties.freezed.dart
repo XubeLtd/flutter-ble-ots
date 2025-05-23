@@ -12,7 +12,7 @@ part of 'object_properties.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ObjectProperties {
@@ -25,7 +25,9 @@ mixin _$ObjectProperties {
   bool get patch => throw _privateConstructorUsedError;
   bool get mark => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ObjectProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ObjectPropertiesCopyWith<ObjectProperties> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +59,8 @@ class _$ObjectPropertiesCopyWithImpl<$Res, $Val extends ObjectProperties>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ObjectProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,11 +111,11 @@ class _$ObjectPropertiesCopyWithImpl<$Res, $Val extends ObjectProperties>
 }
 
 /// @nodoc
-abstract class _$$_ObjectPropertiesCopyWith<$Res>
+abstract class _$$ObjectPropertiesImplCopyWith<$Res>
     implements $ObjectPropertiesCopyWith<$Res> {
-  factory _$$_ObjectPropertiesCopyWith(
-          _$_ObjectProperties value, $Res Function(_$_ObjectProperties) then) =
-      __$$_ObjectPropertiesCopyWithImpl<$Res>;
+  factory _$$ObjectPropertiesImplCopyWith(_$ObjectPropertiesImpl value,
+          $Res Function(_$ObjectPropertiesImpl) then) =
+      __$$ObjectPropertiesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -126,13 +130,15 @@ abstract class _$$_ObjectPropertiesCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ObjectPropertiesCopyWithImpl<$Res>
-    extends _$ObjectPropertiesCopyWithImpl<$Res, _$_ObjectProperties>
-    implements _$$_ObjectPropertiesCopyWith<$Res> {
-  __$$_ObjectPropertiesCopyWithImpl(
-      _$_ObjectProperties _value, $Res Function(_$_ObjectProperties) _then)
+class __$$ObjectPropertiesImplCopyWithImpl<$Res>
+    extends _$ObjectPropertiesCopyWithImpl<$Res, _$ObjectPropertiesImpl>
+    implements _$$ObjectPropertiesImplCopyWith<$Res> {
+  __$$ObjectPropertiesImplCopyWithImpl(_$ObjectPropertiesImpl _value,
+      $Res Function(_$ObjectPropertiesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ObjectProperties
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -145,7 +151,7 @@ class __$$_ObjectPropertiesCopyWithImpl<$Res>
     Object? patch = null,
     Object? mark = null,
   }) {
-    return _then(_$_ObjectProperties(
+    return _then(_$ObjectPropertiesImpl(
       delete: null == delete
           ? _value.delete
           : delete // ignore: cast_nullable_to_non_nullable
@@ -184,8 +190,8 @@ class __$$_ObjectPropertiesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ObjectProperties extends _ObjectProperties {
-  const _$_ObjectProperties(
+class _$ObjectPropertiesImpl extends _ObjectProperties {
+  const _$ObjectPropertiesImpl(
       {this.delete = false,
       this.execute = false,
       this.read = false,
@@ -227,10 +233,10 @@ class _$_ObjectProperties extends _ObjectProperties {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ObjectProperties &&
+            other is _$ObjectPropertiesImpl &&
             (identical(other.delete, delete) || other.delete == delete) &&
             (identical(other.execute, execute) || other.execute == execute) &&
             (identical(other.read, read) || other.read == read) &&
@@ -246,11 +252,14 @@ class _$_ObjectProperties extends _ObjectProperties {
   int get hashCode => Object.hash(
       runtimeType, delete, execute, read, write, append, truncate, patch, mark);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ObjectProperties
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ObjectPropertiesCopyWith<_$_ObjectProperties> get copyWith =>
-      __$$_ObjectPropertiesCopyWithImpl<_$_ObjectProperties>(this, _$identity);
+  _$$ObjectPropertiesImplCopyWith<_$ObjectPropertiesImpl> get copyWith =>
+      __$$ObjectPropertiesImplCopyWithImpl<_$ObjectPropertiesImpl>(
+          this, _$identity);
 }
 
 abstract class _ObjectProperties extends ObjectProperties {
@@ -262,7 +271,7 @@ abstract class _ObjectProperties extends ObjectProperties {
       final bool append,
       final bool truncate,
       final bool patch,
-      final bool mark}) = _$_ObjectProperties;
+      final bool mark}) = _$ObjectPropertiesImpl;
   const _ObjectProperties._() : super._();
 
   @override
@@ -281,8 +290,11 @@ abstract class _ObjectProperties extends ObjectProperties {
   bool get patch;
   @override
   bool get mark;
+
+  /// Create a copy of ObjectProperties
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$$_ObjectPropertiesCopyWith<_$_ObjectProperties> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ObjectPropertiesImplCopyWith<_$ObjectPropertiesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
