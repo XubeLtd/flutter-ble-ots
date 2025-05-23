@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'olcp_response.freezed.dart';
@@ -10,6 +12,11 @@ class OlcpResponse with _$OlcpResponse {
     @Default([]) List<int> responseParameter,
   }) = _OlcpResponse;
 
-  factory OlcpResponse.fromByteArray(List<int> byteArray) =>
-      OlcpResponse(requestCode: byteArray[0], resultCode: byteArray[1], responseParameter: byteArray.sublist(2, byteArray.length));
+  factory OlcpResponse.fromByteArray(List<int> byteArray) {
+    log('filtergatt:OLCP Response: $byteArray');
+    return OlcpResponse(
+      requestCode: byteArray[0],
+      resultCode: byteArray[2],
+    );
+  }
 }
