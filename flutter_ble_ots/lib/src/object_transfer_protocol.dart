@@ -6,6 +6,7 @@ import 'package:flutter_ble_ots/src/models/oacp_features.dart';
 import 'package:flutter_ble_ots/src/models/object_properties.dart';
 import 'package:flutter_ble_ots/src/models/olcp_response.dart';
 import 'package:flutter_ble_ots/src/utils.dart';
+import 'package:l2cap_ble/l2cap_ble.dart';
 
 import '../flutter_ble_ots.dart';
 import 'bluetooth_controller.dart';
@@ -24,13 +25,14 @@ class ObjectTransferProtocol {
 
   final String _deviceId;
   final BleDeviceInteractor _ble;
+  final L2capBle _l2capBle;
   final void Function(String message) _logMessage;
   late final BluetoothController _controller;
   final MetaDataUuids _metaDataUuids;
   final String Function(Uint8List uuid)? _getNameFromUuid;
 
   ObjectTransferProtocol(this._ble, this._deviceId, this._logMessage,
-      this._metaDataUuids, this._getNameFromUuid) {
+      this._metaDataUuids, this._getNameFromUuid, this._l2capBle) {
     _controller =
         BluetoothController(_ble, _deviceId, _metaDataUuids, _logMessage);
   }
@@ -288,6 +290,14 @@ class ObjectTransferProtocol {
     var failCounter = 0;
     var finished = false;
     final List<int> object = [];
+
+    final l2capChannel = await _l2capBle.createL2capChannel(0x25);
+
+    if (!l2capChannel) {
+      _logMessage('l2cap channel failed');
+      return [];
+    }
+
     while (!finished) {
       final chunk = await _getNextDataChunk(offset, size);
       final newOffset = offset + chunk.length;
@@ -303,8 +313,17 @@ class ObjectTransferProtocol {
       }
 
       finished = (offset == size) || chunk.isEmpty;
+      _logMessage('added chunk: $chunk');
       object.addAll(chunk);
     }
+
+    final disconnected = await _l2capBle.disconnectFromDevice(_deviceId);
+
+    if (!disconnected) {
+      _logMessage('l2cap disconnection failed');
+      return [];
+    }
+
     _logMessage(
         'read object $object with size $size meta: $currentObjectMetaData');
     return object;
@@ -322,17 +341,13 @@ class ObjectTransferProtocol {
 
     try {
       final readCommand = OacpOpCodeUtils.getReadRequest(offset, length);
-      final response = await _sendOacpCommand(readCommand);
 
-      if (response == null || response.resultCode != OACPConstants.SUCCESS) {
-        _logMessage('❌ Read request failed: $response');
-        return [];
-      }
-
-      // Wait for the notification that gives us the chunk data
+      _logMessage('filtergatt:readCommand $readCommand');
+      // final response = await _sendOacpCommand(readCommand);
       final chunk =
-          await _controller.readCharacteristic(_metaDataUuids.transmissionUuid);
-      _logMessage('✅ Received chunk (${chunk.length} bytes)');
+          await _l2capBle.sendMessage(Uint8List.fromList(readCommand));
+
+      _logMessage('✅ Received chunk:${chunk} | (${chunk.length} bytes)');
 
       return chunk;
     } catch (e) {

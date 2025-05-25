@@ -24,6 +24,7 @@ dependencies:
   flutter_ble_ots:
     path: flutter_ble_ots/
   freezed_annotation: ^2.4.1
+  l2cap_ble: ^0.0.1
 
 dev_dependencies:
   flutter_test:

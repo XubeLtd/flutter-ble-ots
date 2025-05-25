@@ -3,13 +3,14 @@ description: Bluetooth Low Energy Object Transfer Service
 version: 0.0.1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   freezed_annotation: ^2.2.0
+  l2cap_ble: ^0.0.1
 
 dev_dependencies:
   flutter_test:
@@ -18,5 +19,3 @@ dev_dependencies:
   build_runner: ^2.3.3
   freezed: ^2.3.2
   convert: ^3.1.1
-
-

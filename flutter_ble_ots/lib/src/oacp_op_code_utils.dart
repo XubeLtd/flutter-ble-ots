@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_ble_ots/src/utils.dart';
 
 import 'oacp_constants.dart';
@@ -5,9 +7,13 @@ import 'oacp_constants.dart';
 class OacpOpCodeUtils {
   static List<int> getReadRequest(int offset, int length) {
     if (_isIntParameterValid(offset) && _isIntParameterValid(length)) {
-      return [OACPConstants.READ] +
+      final command =  [OACPConstants.READ] +
           Utils.getIntAsByteArray(offset) +
           Utils.getIntAsByteArray(length);
+
+      log('filtergatt:getReadRequest $command');
+
+      return command;
     } else {
       throw Exception('InvalidOACPCommandParameterException("read")');
     }

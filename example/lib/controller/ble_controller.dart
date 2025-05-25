@@ -3,21 +3,23 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter_ble_ots/flutter_ble_ots.dart';
-import 'package:flutter_ble_ots_example/controller/uuid_constants.dart';
 import 'package:flutter_ble_ots_example/services/providers.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../services/ble_scanner.dart';
 import 'ble_state.dart';
+
 String getHexFromUint8List(Uint8List inputAsUint8List) =>
     String.fromCharCodes(inputAsUint8List);
 
 Uint8List getUint8ListFromHex(String inputAsHex) =>
     Uint8List.fromList(inputAsHex.codeUnits);
 
-final bleControllerProvider = StateNotifierProvider<BleController, BleState>((ref) {
-  return BleController(ref.watch(scannerProvider), ref.watch(bleDeviceInteractorProvider), ref.watch(bleProvider));
+final bleControllerProvider =
+    StateNotifierProvider<BleController, BleState>((ref) {
+  return BleController(ref.watch(scannerProvider),
+      ref.watch(bleDeviceInteractorProvider), ref.watch(bleProvider));
 });
 
 class BleController extends StateNotifier<BleState> {
@@ -28,7 +30,8 @@ class BleController extends StateNotifier<BleState> {
   final FlutterReactiveBle _ble;
   late final StreamSubscription<BleScannerState> _scanSubscription;
   StreamSubscription<ConnectionStateUpdate>? _deviceSubscription;
-  BleController(this._scanner, this._deviceInteractor, this._ble) : super(const BleState.idle()) {
+  BleController(this._scanner, this._deviceInteractor, this._ble)
+      : super(const BleState.idle()) {
     _scanSubscription = _scanner.state.listen((scannerState) {
       state.maybeWhen(
         scanning: (_) {
@@ -57,9 +60,11 @@ class BleController extends StateNotifier<BleState> {
 
   void connect(DiscoveredDevice device) {
     final deviceId = device.id;
+    // final l2capChannel =  L2capBle()
     state = BleState.connecting(deviceId: deviceId);
     _scanner.stopScan();
-    _deviceSubscription = _ble.connectToDevice(id: deviceId).listen((connectionState) async {
+    _deviceSubscription =
+        _ble.connectToDevice(id: deviceId).listen((connectionState) async {
       final updateState = state.maybeMap(
         connecting: (s) => s.deviceId == deviceId,
         connected: (s) => s.deviceId == deviceId,
@@ -68,22 +73,27 @@ class BleController extends StateNotifier<BleState> {
       if (updateState) {
         switch (connectionState.connectionState) {
           case DeviceConnectionState.connected:
-            _otsWrapper.complete(
-              BleOtsWrapper(
-                deviceId,
-                _deviceInteractor,
-                _logMessage,
-                UuidConstants.metaDataUuids,
-                UuidConstants.getNameFromUuid,
-              ),
-            );
+            // _otsWrapper.complete(
+            //   BleOtsWrapper(
+            //     deviceId,
+            //     _deviceInteractor,
+            //     _logMessage,
+            //     UuidConstants.metaDataUuids,
+            //     UuidConstants.getNameFromUuid,
+            //   ),
+            // );
             final ots = await _otsWrapper.future;
-            state = BleState.connected(deviceId: deviceId, lastMessage: null, supportedUuids: [], loading: true);
+            state = BleState.connected(
+                deviceId: deviceId,
+                lastMessage: null,
+                supportedUuids: [],
+                loading: true);
             final connectedState = state as BleStateConnected;
 
             await ots.init();
             final uuids = await ots.getListOfSupportedUuids();
-            state = connectedState.copyWith(supportedUuids: uuids, loading: false);
+            state =
+                connectedState.copyWith(supportedUuids: uuids, loading: false);
 
             break;
           case DeviceConnectionState.connecting:
@@ -145,9 +155,11 @@ class BleController extends StateNotifier<BleState> {
         orElse: () {});
   }
 
-  String getHexFromUint8List(Uint8List inputAsUint8List) => String.fromCharCodes(inputAsUint8List);
+  String getHexFromUint8List(Uint8List inputAsUint8List) =>
+      String.fromCharCodes(inputAsUint8List);
 
-  Uint8List getUint8ListFromHex(String inputAsHex) => Uint8List.fromList(inputAsHex.codeUnits);
+  Uint8List getUint8ListFromHex(String inputAsHex) =>
+      Uint8List.fromList(inputAsHex.codeUnits);
 
   void _logMessage(String msg) {
     log('msg from OTS: $msg');
