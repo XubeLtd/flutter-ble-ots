@@ -30,11 +30,11 @@ class BleOtsWrapper {
   }
 
   Future<void> init({CommonConnectionPriority? priority}) async {
-    final connected = await _l2capBle.connectToDevice(_deviceId);
+    // final connected = await _l2capBle.connectToDevice(_deviceId);
 
-    if (!connected) {
-      throw Exception('connection failed');
-    }
+    // if (!connected) {
+    //   throw Exception('connection failed');
+    // }
 
     // final created = await _l2capBle.createL2capChannel(0x25);
 

@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter_ble_ots/src/models/oacp_features.dart';
 import 'package:flutter_ble_ots/src/models/object_properties.dart';
 import 'package:flutter_ble_ots/src/models/olcp_response.dart';
-import 'package:flutter_ble_ots/src/utils.dart';
 import 'package:l2cap_ble/l2cap_ble.dart';
 
 import '../flutter_ble_ots.dart';
@@ -186,49 +185,42 @@ class ObjectTransferProtocol {
     }
 
     try {
-      final mtu = await _ble.requestMtu(OtpBleConstants.MAX_MTU, _deviceId);
-      final toTransmit =
-          Utils.splitArrayIntoChunks(data, OtpBleConstants.MAX_BULK_WRITE_SIZE);
-      var sendObjectDataSize = 0;
+      final socketId = await _ble.createL2CapChannel(0x25, _deviceId);
 
-      for (final objectChunk in toTransmit) {
-        var sendChunkDataSize = 0;
-        final oacpCommand = OacpOpCodeUtils.getWriteRequest(
-          offset,
-          objectChunk.length,
-          OacpOpCodeUtils.getModeByte(false),
-        );
-
-        final oacpResponse = await _sendOacpCommand(oacpCommand);
-        if (oacpResponse != null) {
-          if (oacpResponse.resultCode == OACPConstants.SUCCESS) {
-            var failCounter = 0;
-            while (sendChunkDataSize != objectChunk.length) {
-              final payload = Utils.splitArrayTillMaxSize(
-                sendChunkDataSize,
-                mtu,
-                objectChunk,
-              );
-
-              if (await _sendDataChunk(payload)) {
-                sendChunkDataSize += payload.length;
-                sendObjectDataSize += payload.length;
-                failCounter = 0;
-              } else {
-                failCounter++;
-              }
-              if (failCounter == OtpBleConstants.MAX_RETRY_COUNT) {
-                throw Exception(
-                    'CommunicationException("send data", $currentObjectMetaData)');
-              }
-            }
-          } else {
-            throw Exception(
-                'OACPResponseException(${oacpResponse.resultCode})');
-          }
-        }
+      if (socketId == null) {
+        throw Exception('L2CapChannelCreationException()');
       }
-      return sendObjectDataSize;
+
+      // final mtu = await _ble.requestMtu(OtpBleConstants.MAX_MTU, _deviceId);
+      // final toTransmit =
+      //     Utils.splitArrayIntoChunks(data, OtpBleConstants.MAX_BULK_WRITE_SIZE);
+
+      final oacpCommand = OacpOpCodeUtils.getWriteRequest(
+        offset,
+        data.length,
+        OacpOpCodeUtils.getModeByte(false),
+      );
+
+      _logMessage('oacpCommand $oacpCommand');
+
+      final oacpResponse = await _sendOacpCommand(oacpCommand);
+
+      if (oacpResponse == null ||
+          oacpResponse.resultCode != OACPConstants.SUCCESS) {
+        throw Exception('OacpResponseException()');
+      }
+
+      final success = await _ble.l2CapWrite(socketId, _deviceId, data);
+      _logMessage('send data $success');
+
+      final closed = await _ble.closeL2CapChannel(socketId, _deviceId);
+
+      if (!closed) {
+        _logMessage('closed');
+        throw Exception('L2CapChannelCloseException()');
+      }
+
+      return data.length;
     } catch (e) {
       _logMessage(e.toString());
     }
@@ -291,15 +283,15 @@ class ObjectTransferProtocol {
     var finished = false;
     final List<int> object = [];
 
-    final l2capChannel = await _l2capBle.createL2capChannel(0x25);
-
-    if (!l2capChannel) {
-      _logMessage('l2cap channel failed');
-      return [];
+    // final l2capChannel = await _l2capBle.createL2capChannel(0x25);
+    final socketId = await _ble.createL2CapChannel(0x25, _deviceId);
+    _logMessage('l2cap channel created with id: $socketId');
+    if (socketId == null) {
+      throw Exception('L2CapChannelCreationException()');
     }
 
     while (!finished) {
-      final chunk = await _getNextDataChunk(offset, size);
+      final chunk = await _getNextDataChunk(offset, size, socketId);
       final newOffset = offset + chunk.length;
       if (newOffset == offset) {
         failCounter++;
@@ -317,19 +309,61 @@ class ObjectTransferProtocol {
       object.addAll(chunk);
     }
 
-    final disconnected = await _l2capBle.disconnectFromDevice(_deviceId);
+    final success = await _ble.closeL2CapChannel(socketId, _deviceId);
 
-    if (!disconnected) {
-      _logMessage('l2cap disconnection failed');
-      return [];
+    if (!success) {
+      throw Exception('CommunicationException("read", $currentObjectMetaData)');
     }
+
+    // _l2capBle.getConnectionState().listen((event) {
+    //   _logMessage('l2cap connection state: ${event.name}');
+    // });
 
     _logMessage(
         'read object $object with size $size meta: $currentObjectMetaData');
     return object;
   }
 
-  Future<List<int>> _getNextDataChunk(int offset, int size) async {
+  // Future<List<int>> _getNextDataChunk(int offset, int size) async {
+  //   _logMessage('next chunk start');
+  //   int length =
+  //       await _ble.requestMtu(OtpBleConstants.MAX_TRANSMISSION_SIZE, _deviceId);
+  //   _logMessage('next chunk requested mtu');
+
+  //   if (offset + length > size) {
+  //     length = size - offset;
+  //   }
+
+  //   try {
+  //     final oacpCommand = OacpOpCodeUtils.getReadRequest(offset, length);
+  //     _logMessage('sending chunk send oacp');
+  //     final oacpResponse = await _sendOacpCommand(oacpCommand);
+  //     _logMessage('sending chunk sent oacp');
+
+  //     if (oacpResponse != null) {
+  //       if (oacpResponse.resultCode == OACPConstants.SUCCESS) {
+  //         final dataChunk = await _l2capBle.sendMessage(Uint8List.fromList([]));
+
+  //         if (dataChunk.isEmpty) {
+  //           throw Exception('L2capBleException');
+  //         }
+
+  //         // return await _getDataChunk(_metaDataUuids.transmissionUuid, length);
+  //         _logMessage('filtergatt:dataChunk $dataChunk');
+  //         return dataChunk;
+  //       } else {
+  //         throw Exception('OACPResponseException ${oacpResponse.resultCode}');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     _logMessage(e.toString());
+  //   }
+
+  //   return [];
+  // }
+
+  Future<List<int>> _getNextDataChunk(
+      int offset, int size, String socketId) async {
     _logMessage(
         '🔄 Requesting data chunk | Offset: $offset | Total Size: $size');
 
@@ -342,10 +376,14 @@ class ObjectTransferProtocol {
     try {
       final readCommand = OacpOpCodeUtils.getReadRequest(offset, length);
 
-      _logMessage('filtergatt:readCommand $readCommand');
-      // final response = await _sendOacpCommand(readCommand);
-      final chunk =
-          await _l2capBle.sendMessage(Uint8List.fromList(readCommand));
+      final oacpResponse = await _sendOacpCommand(readCommand);
+
+      if (oacpResponse == null ||
+          oacpResponse.resultCode != OACPConstants.SUCCESS) {
+        throw Exception('OacpResponseException()');
+      }
+
+      final chunk = await _ble.l2CapRead(socketId, _deviceId);
 
       _logMessage('✅ Received chunk:${chunk} | (${chunk.length} bytes)');
 

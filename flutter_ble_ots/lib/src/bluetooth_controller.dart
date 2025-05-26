@@ -25,34 +25,48 @@ class BluetoothController {
   final Map<Uint8List, LastResponse> _lastCustomResponses = {};
   final Map<Uint8List, StreamSubscription<List<int>>> _customSubs = {};
 
-  BluetoothController(this._ble, this._deviceId, this._metaDataUuids, this._logMessage) {
-    _oacpSub = _subscribeToCharacteristic(_metaDataUuids.oacpUuid).listen((res) {
+  BluetoothController(
+      this._ble, this._deviceId, this._metaDataUuids, this._logMessage) {
+    _oacpSub =
+        _subscribeToCharacteristic(_metaDataUuids.oacpUuid).listen((res) {
       final oacpResponse = OacpResponse.fromByteArray(res);
-      _logMessage('new oac event $oacpResponse');
-      _lastOacpResponse = LastResponse(timeStamp: DateTime.now(), response: oacpResponse);
+      _logMessage('new oac event $oacpResponse $res');
+      _lastOacpResponse =
+          LastResponse(timeStamp: DateTime.now(), response: oacpResponse);
     });
-    _olcpSub = _subscribeToCharacteristic(_metaDataUuids.olcpUuid).listen((res) {
+    _olcpSub =
+        _subscribeToCharacteristic(_metaDataUuids.olcpUuid).listen((res) {
       final olcpRes = OlcpResponse.fromByteArray(res);
       _logMessage('new change olcp event $olcpRes');
-      _lastOlcpResponse = LastResponse(timeStamp: DateTime.now(), response: olcpRes);
+      _lastOlcpResponse =
+          LastResponse(timeStamp: DateTime.now(), response: olcpRes);
     });
   }
 
   void observeCustomServiceId(Uint8List characteristicUuid) {
     _customSubs[characteristicUuid] = _ble
         .subscribeToCharacteristic(
-      CommonCharacteristic(characteristicId: characteristicUuid, serviceId: _metaDataUuids.otsUuid, deviceId: _deviceId),
+      CommonCharacteristic(
+          characteristicId: characteristicUuid,
+          serviceId: _metaDataUuids.otsUuid,
+          deviceId: _deviceId),
     )
         .listen((event) {
-      _lastCustomResponses[characteristicUuid] = LastResponse(timeStamp: DateTime.now(), response: event);
+      _lastCustomResponses[characteristicUuid] =
+          LastResponse(timeStamp: DateTime.now(), response: event);
     });
   }
 
-  Future<List<int>> getLastResponseOfCustomServiceId(Uint8List characteristicUuid, DateTime afterTime) async {
+  Future<List<int>> getLastResponseOfCustomServiceId(
+      Uint8List characteristicUuid, DateTime afterTime) async {
     if (!_customSubs.containsKey(characteristicUuid)) {
-      throw Exception('observe custom service Id before listening to it. Service id is $characteristicUuid');
+      throw Exception(
+          'observe custom service Id before listening to it. Service id is $characteristicUuid');
     }
-    while (_lastCustomResponses[characteristicUuid] == null || _lastCustomResponses[characteristicUuid]!.timeStamp.isBefore(afterTime)) {
+    while (_lastCustomResponses[characteristicUuid] == null ||
+        _lastCustomResponses[characteristicUuid]!
+            .timeStamp
+            .isBefore(afterTime)) {
       await Future.delayed(OtpBleConstants.sleepDuration);
     }
     return _lastCustomResponses[characteristicUuid]!.response;
@@ -60,14 +74,20 @@ class BluetoothController {
 
   Stream<List<int>> _subscribeToCharacteristic(Uint8List characteristicUuid) {
     return _ble.subscribeToCharacteristic(
-      CommonCharacteristic(characteristicId: characteristicUuid, serviceId: _metaDataUuids.otsUuid, deviceId: _deviceId),
+      CommonCharacteristic(
+          characteristicId: characteristicUuid,
+          serviceId: _metaDataUuids.otsUuid,
+          deviceId: _deviceId),
     );
   }
 
   Future<List<int>> readCharacteristic(Uint8List characteristicUuid) async {
     log('readcharacteristic $characteristicUuid');
     final char = await _ble.readCharacteristic(
-      CommonCharacteristic(characteristicId: characteristicUuid, serviceId: _metaDataUuids.otsUuid, deviceId: _deviceId),
+      CommonCharacteristic(
+          characteristicId: characteristicUuid,
+          serviceId: _metaDataUuids.otsUuid,
+          deviceId: _deviceId),
     );
     log('readcharacteristic FINISHED $char');
     return char;
@@ -75,7 +95,8 @@ class BluetoothController {
 
   Future<OacpResponse> getOacpChanged(DateTime afterTime) async {
     int sleepCounter = 0;
-    while ((_lastOacpResponse?.timeStamp.isBefore(afterTime) ?? true) || sleepCounter > OtpBleConstants.maxSleepAmount) {
+    while ((_lastOacpResponse?.timeStamp.isBefore(afterTime) ?? true) ||
+        sleepCounter > OtpBleConstants.maxSleepAmount) {
       await Future.delayed(OtpBleConstants.sleepDuration);
       sleepCounter++;
     }
@@ -89,17 +110,25 @@ class BluetoothController {
     return _lastOlcpResponse!.response;
   }
 
-  Future<bool> writeCharacteristic(Uint8List characteristicUuid, List<int> value, {bool waitForResponse = true}) async {
+  Future<bool> writeCharacteristic(
+      Uint8List characteristicUuid, List<int> value,
+      {bool waitForResponse = true}) async {
     log('writeCharacteristic $characteristicUuid value $value');
     try {
       if (waitForResponse) {
         await _ble.writeCharacteristicWithResponse(
-          CommonCharacteristic(characteristicId: characteristicUuid, serviceId: _metaDataUuids.otsUuid, deviceId: _deviceId),
+          CommonCharacteristic(
+              characteristicId: characteristicUuid,
+              serviceId: _metaDataUuids.otsUuid,
+              deviceId: _deviceId),
           value,
         );
       } else {
         await _ble.writeCharacteristicWithoutResponse(
-          CommonCharacteristic(characteristicId: characteristicUuid, serviceId: _metaDataUuids.otsUuid, deviceId: _deviceId),
+          CommonCharacteristic(
+              characteristicId: characteristicUuid,
+              serviceId: _metaDataUuids.otsUuid,
+              deviceId: _deviceId),
           value,
         );
       }
