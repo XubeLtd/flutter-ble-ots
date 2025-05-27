@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter_ble_ots/src/models/oacp_features.dart';
 import 'package:flutter_ble_ots/src/models/object_properties.dart';
 import 'package:flutter_ble_ots/src/models/olcp_response.dart';
-import 'package:l2cap_ble/l2cap_ble.dart';
 
 import '../flutter_ble_ots.dart';
 import 'bluetooth_controller.dart';
@@ -24,14 +23,13 @@ class ObjectTransferProtocol {
 
   final String _deviceId;
   final BleDeviceInteractor _ble;
-  final L2capBle _l2capBle;
   final void Function(String message) _logMessage;
   late final BluetoothController _controller;
   final MetaDataUuids _metaDataUuids;
   final String Function(Uint8List uuid)? _getNameFromUuid;
 
   ObjectTransferProtocol(this._ble, this._deviceId, this._logMessage,
-      this._metaDataUuids, this._getNameFromUuid, this._l2capBle) {
+      this._metaDataUuids, this._getNameFromUuid) {
     _controller =
         BluetoothController(_ble, _deviceId, _metaDataUuids, _logMessage);
   }
