@@ -45,14 +45,24 @@ class BleOtsWrapper {
         afterTime,
       );
 
-  Future<List<int>?> readDataFromId(List<int> id) {
-    return _otp.readDataFromId(_features.oacpFeatures, id);
+  Future<List<int>?> readDataFromId(List<int> id) async {
+    try {
+      return _otp.readDataFromId(_features.oacpFeatures, id);
+    } catch (e) {
+      _logMessage('l2capRead: $e');
+      return null;
+    }
   }
 
   Future<bool> selectObjectId(List<int> id) => _otp.selectObjectId(id);
 
-  Future<bool> writeDataToId(List<int> id, List<int> value) {
-    return _otp.writeDataToId(_features.oacpFeatures, id, value);
+  Future<bool> writeDataToId(List<int> id, List<int> value) async {
+    try {
+      return _otp.writeDataToId(_features.oacpFeatures, id, value);
+    } catch (e) {
+      _logMessage('l2capWrite: $e');
+      return false;
+    }
   }
 
   Future<bool> createObject(List<int> id, List<int> value) {

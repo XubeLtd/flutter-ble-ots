@@ -16,7 +16,6 @@ import 'oacp_constants.dart';
 import 'oacp_op_code_utils.dart';
 import 'olcp_constants.dart';
 import 'olcp_op_code_utils.dart';
-import 'otp_ble_constants.dart';
 
 class ObjectTransferProtocol {
   final Map<List<int>, ObjectMetaData> _knownMetaData = {};
@@ -54,7 +53,7 @@ class ObjectTransferProtocol {
           readResponse.sublist(olcpLowerBound, olcpUpperBound));
       return OtsFeatures(oacpFeatures: oacp, olcpFeatures: olcp);
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('discoverFeatures: $e');
     }
 
     return null;
@@ -87,7 +86,7 @@ class ObjectTransferProtocol {
         return metaData;
       }
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('_gotoObjectAndReadMetaData: $e');
     }
     return null;
   }
@@ -159,10 +158,10 @@ class ObjectTransferProtocol {
       if (!_isWriteAllowed(oacpFeatures, currentObjectMetaData)) {
         return false;
       }
-
+      _logMessage('writeCurrentObject: $input offset: $offset');
       final bytesTransmitted =
           await _sendData(input, offset, currentObjectMetaData);
-
+      _logMessage('bytesTransmitted: $bytesTransmitted');
       if (bytesTransmitted != input.length) {
         _logMessage(
             'transmitted $bytesTransmitted, but input has length ${input.length}');
@@ -170,7 +169,7 @@ class ObjectTransferProtocol {
       }
       return true;
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('_writeCurrentObject: $e');
     }
 
     return false;
@@ -220,7 +219,7 @@ class ObjectTransferProtocol {
 
       return data.length;
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('_sendData: $e');
     }
 
     return -1;
@@ -237,7 +236,7 @@ class ObjectTransferProtocol {
         throw Exception('GattResponseException(writeResponse)');
       }
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('_sendDataChunk: $e');
     }
 
     return false;
@@ -281,9 +280,8 @@ class ObjectTransferProtocol {
     var finished = false;
     final List<int> object = [];
 
-    // final l2capChannel = await _l2capBle.createL2capChannel(0x25);
     final socketId = await _ble.createL2CapChannel(0x25, _deviceId);
-    _logMessage('l2cap channel created with id: $socketId');
+
     if (socketId == null) {
       throw Exception('L2CapChannelCreationException()');
     }
@@ -303,7 +301,6 @@ class ObjectTransferProtocol {
       }
 
       finished = (offset == size) || chunk.isEmpty;
-      _logMessage('added chunk: $chunk');
       object.addAll(chunk);
     }
 
@@ -313,104 +310,34 @@ class ObjectTransferProtocol {
       throw Exception('CommunicationException("read", $currentObjectMetaData)');
     }
 
-    // _l2capBle.getConnectionState().listen((event) {
-    //   _logMessage('l2cap connection state: ${event.name}');
-    // });
-
     _logMessage(
         'read object $object with size $size meta: $currentObjectMetaData');
     return object;
   }
 
-  // Future<List<int>> _getNextDataChunk(int offset, int size) async {
-  //   _logMessage('next chunk start');
-  //   int length =
-  //       await _ble.requestMtu(OtpBleConstants.MAX_TRANSMISSION_SIZE, _deviceId);
-  //   _logMessage('next chunk requested mtu');
-
-  //   if (offset + length > size) {
-  //     length = size - offset;
-  //   }
-
-  //   try {
-  //     final oacpCommand = OacpOpCodeUtils.getReadRequest(offset, length);
-  //     _logMessage('sending chunk send oacp');
-  //     final oacpResponse = await _sendOacpCommand(oacpCommand);
-  //     _logMessage('sending chunk sent oacp');
-
-  //     if (oacpResponse != null) {
-  //       if (oacpResponse.resultCode == OACPConstants.SUCCESS) {
-  //         final dataChunk = await _l2capBle.sendMessage(Uint8List.fromList([]));
-
-  //         if (dataChunk.isEmpty) {
-  //           throw Exception('L2capBleException');
-  //         }
-
-  //         // return await _getDataChunk(_metaDataUuids.transmissionUuid, length);
-  //         _logMessage('filtergatt:dataChunk $dataChunk');
-  //         return dataChunk;
-  //       } else {
-  //         throw Exception('OACPResponseException ${oacpResponse.resultCode}');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     _logMessage(e.toString());
-  //   }
-
-  //   return [];
-  // }
-
   Future<List<int>> _getNextDataChunk(
       int offset, int size, String socketId) async {
-    _logMessage(
-        '🔄 Requesting data chunk | Offset: $offset | Total Size: $size');
-
-    int mtu =
-        await _ble.requestMtu(OtpBleConstants.MAX_TRANSMISSION_SIZE, _deviceId);
-    if (mtu <= 0) mtu = 20;
-
-    int length = (offset + mtu > size) ? size - offset : mtu;
+    // int mtu =
+    //     await _ble.requestMtu(OtpBleConstants.MAX_TRANSMISSION_SIZE, _deviceId);
+    // if (mtu <= 0) mtu = 20;
+    // int length = (offset + mtu > size) ? size - offset : mtu;
 
     try {
-      final readCommand = OacpOpCodeUtils.getReadRequest(offset, length);
-
+      final readCommand = OacpOpCodeUtils.getReadRequest(offset, size);
       final oacpResponse = await _sendOacpCommand(readCommand);
-
       if (oacpResponse == null ||
           oacpResponse.resultCode != OACPConstants.SUCCESS) {
         throw Exception('OacpResponseException()');
       }
 
       final chunk = await _ble.l2CapRead(socketId, _deviceId);
-
-      _logMessage('✅ Received chunk:${chunk} | (${chunk.length} bytes)');
+      _logMessage('✅ Received chunk:$chunk | (${chunk.length} bytes)');
 
       return chunk;
     } catch (e) {
       _logMessage('🔥 Exception during read: $e');
       return [];
     }
-  }
-
-  Future<List<int>> _getDataChunk(
-      Uint8List characteristicUUID, int length) async {
-    try {
-      final readResponse =
-          await _controller.readCharacteristic(characteristicUUID);
-
-      if (readResponse.length == length) {
-        return readResponse;
-      } else if (readResponse.length > length) {
-        return readResponse.sublist(0, length);
-      }
-      throw Exception(
-        'WrongInputSizeException(Data from ${_getNameFromUuid == null ? characteristicUUID : _getNameFromUuid!(characteristicUUID)}, $length, $readResponse)',
-      );
-    } catch (e) {
-      _logMessage(e.toString());
-    }
-
-    return [];
   }
 
   Future<OlcpResponse?> _sendOlcpCommand(List<int> olcpCommand) async {
@@ -443,7 +370,7 @@ class ObjectTransferProtocol {
         return _controller.getOacpChanged(now);
       }
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('_sendOlcpCommand: $e');
     }
 
     return null;
@@ -470,14 +397,12 @@ class ObjectTransferProtocol {
   Future<List<int>?> readDataFromId(
       OACPFeatures oacpFeatures, List<int> id) async {
     try {
-      _logMessage('getting meta');
       final metaData = await _gotoObjectAndReadMetaData(id);
-      _logMessage('got meta $metaData');
       if (metaData != null) {
         return await _readCurrentObject(oacpFeatures, metaData);
       }
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('readDataFromId: $e');
     }
     return null;
   }
@@ -515,7 +440,7 @@ class ObjectTransferProtocol {
         return oacpResponse.resultCode == OACPConstants.SUCCESS;
       }
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('executeId: $e');
     }
 
     return false;
@@ -528,9 +453,8 @@ class ObjectTransferProtocol {
       if (metaData != null) {
         return await _writeCurrentObject(oacpFeatures, metaData, value);
       }
-      _logMessage('write num of objects');
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('writeDataToId: $e');
     }
     return false;
   }
@@ -543,7 +467,7 @@ class ObjectTransferProtocol {
       _logMessage('write num of objects');
       return true; // return true here on success
     } catch (e) {
-      _logMessage(e.toString());
+      _logMessage('createObject: $e');
       return false; // return false on exception
     }
   }
